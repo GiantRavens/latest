@@ -1,0 +1,37 @@
+#!/bin/bash
+# requires the http python package
+# move to local bin folder and make it executable
+
+while [ ! $# -eq 0 ]
+do
+  case "$1" in
+    --node | node)
+      echo "Your installed version is:"
+      node --version
+      echo "The latest version of node is:"
+      http https://nodejs.org/en/ | grep 'data-version=' | tail -1 | grep -oE '\d\d.?\d.?\d?' | tail -1
+      exit
+      ;;
+
+    --rails | rails)
+      echo "Your installed version is:"
+      Rails --version
+      echo "The latest version of Ruby on Rails is:"
+      http https://rubyonrails.org | grep 'Latest version' | tail -1 | grep -oE '\d+\.\d+\.\d+?\.\d+?'
+      exit
+      ;;
+
+    --ruby | ruby)
+      echo "Your installed version is:"
+      ruby --version
+      echo "The latest version of Ruby is:"
+      http https://www.ruby-lang.org/en/downloads/ | grep cache | head -1 | grep -oE '\d+?\.\d+?\.\d+?' | head -1
+      exit
+      ;;
+
+  esac
+  shift
+
+  echo "you must select an option - currently supported are --node --rails --ruby"
+
+done
